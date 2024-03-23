@@ -1,6 +1,5 @@
+import 'package:crossplatform5/InterfaceChecker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'dart:io' show Platform;
 
 void main() {
   runApp(const MyApp());
@@ -33,11 +32,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  _MyHomePageState(){
-  }
-  void _incrementCounter() {
+  InterfaceChecker ic = new InterfaceChecker();
+  String _inputText = '';
+
+  void _addA(){
     setState(() {
-      //_counter++;
+      _inputText+= 'A';
+    });
+  }
+  void _addB(){
+    setState(() {
+      _inputText+= 'Б';
     });
   }
 
@@ -50,21 +55,37 @@ class _MyHomePageState extends State<MyHomePage> {
 
         title: Text(widget.title),
       ),
-      body: const Center(
-        child: Column(
-          children: [
-            Icon(
-                kIsWeb ? Icons.public : Icons.desktop_windows
-            ),
-            Text('Hey'),
-          ],
+      body: Center(
+        child: Container(
+          width: 400,
+            child: Column(
+              children: [
+                SizedBox( height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(ic.isDesktopInterface() ? Icons.desktop_windows : Icons.phone_android),
+                    Text(ic.isDesktopInterface() ? 'Включён интерфейс для комптютера' : 'Включён интерфейс для телефона')
+                  ],
+                ),
+                SizedBox( height: 20),
+                const TextField(
+                  decoration: InputDecoration(
+                      hintText: 'Введите что-нибудь'
+                  ),
+                ),
+                SizedBox( height: 20),
+                ic.isDesktopInterface() ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(onPressed: _addA, child: Text('А')),
+                    ElevatedButton(onPressed: _addB, child: Text('Б')),
+                  ],
+                ) : Text('2')
+              ],
+            )
         )
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      )// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
