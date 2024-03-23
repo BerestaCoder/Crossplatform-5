@@ -58,30 +58,46 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Container(
           width: 400,
-            child: Column(
-              children: [
+            child: ic.isDesktopInterface() ? const Column(
+              // ========= Интерфейс для компьютера
+              children:  [
                 SizedBox( height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(ic.isDesktopInterface() ? Icons.desktop_windows : Icons.phone_android),
-                    Text(ic.isDesktopInterface() ? 'Включён интерфейс для комптютера' : 'Включён интерфейс для телефона')
+                    Icon(Icons.desktop_windows),
+                    Text('Включён интерфейс для компьютера')
                   ],
                 ),
                 SizedBox( height: 20),
-                const TextField(
+                TextField(
                   decoration: InputDecoration(
                       hintText: 'Введите что-нибудь'
                   ),
                 ),
-                SizedBox( height: 20),
-                ic.isDesktopInterface() ? Row(
+                 SizedBox( height: 20)
+              ],
+            ) :
+            Column(
+              // ========= Интерфейс для телефона
+              children: [SizedBox( height: 20),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.phone_android),
+                    Text('Включён интерфейс для телефона')
+                  ],
+                ),
+                const SizedBox( height: 20),
+                Text('$_inputText'),
+                const SizedBox( height: 20),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(onPressed: _addA, child: Text('А')),
                     ElevatedButton(onPressed: _addB, child: Text('Б')),
                   ],
-                ) : Text('2')
+                )
               ],
             )
         )
